@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+  <root>
+    <mxCell id="0"/>
+    <mxCell id="1" parent="0"/>
+
+    <!-- Título -->
+    <mxCell id="2" value="ISR: contadorLinhaISR()  (acionada por RISING no pino 3 — sensor de intersecção)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;fontStyle=1;fontSize=11;fontColor=#666666;" vertex="1" parent="1">
+      <mxGeometry x="100" y="10" width="600" height="30" as="geometry"/>
+    </mxCell>
+
+    <!-- ISR start -->
+    <mxCell id="10" value="contadorLinhaISR()&lt;br&gt;INTERRUPÇÃO acionada" style="rounded=1;whiteSpace=wrap;html=1;arcSize=50;fillColor=#7b1fa2;strokeColor=#4a148c;fontColor=#ffffff;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="210" y="50" width="210" height="40" as="geometry"/>
+    </mxCell>
+
+    <!-- Diamond: estado == SEGUIR? -->
+    <mxCell id="11" value="estado ==&lt;br&gt;SEGUIR?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d6b656;" vertex="1" parent="1">
+      <mxGeometry x="215" y="135" width="200" height="70" as="geometry"/>
+    </mxCell>
+
+    <!-- NÃO → ignora -->
+    <mxCell id="12" value="return&lt;br&gt;(ignora)" style="rounded=1;whiteSpace=wrap;html=1;arcSize=50;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+      <mxGeometry x="480" y="150" width="110" height="40" as="geometry"/>
+    </mxCell>
+
+    <!-- Diamond: debounce < 500ms? -->
+    <mxCell id="13" value="millis() - ultimoCount&lt;br&gt;&lt; 500ms?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d6b656;" vertex="1" parent="1">
+      <mxGeometry x="215" y="255" width="200" height="70" as="geometry"/>
+    </mxCell>
+
+    <!-- SIM → ignora (ruído) -->
+    <mxCell id="14" value="return&lt;br&gt;(ruído)" style="rounded=1;whiteSpace=wrap;html=1;arcSize=50;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+      <mxGeometry x="480" y="270" width="110" height="40" as="geometry"/>
+    </mxCell>
+
+    <!-- Diamond: count >= totalPassos? -->
+    <mxCell id="15" value="count &gt;=&lt;br&gt;totalPassos?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d6b656;" vertex="1" parent="1">
+      <mxGeometry x="215" y="375" width="200" height="70" as="geometry"/>
+    </mxCell>
+
+    <!-- SIM → ignora (caminho completo) -->
+    <mxCell id="16" value="return&lt;br&gt;(completo)" style="rounded=1;whiteSpace=wrap;html=1;arcSize=50;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+      <mxGeometry x="480" y="390" width="110" height="40" as="geometry"/>
+    </mxCell>
+
+    <!-- Lê sequencia + incrementa count -->
+    <mxCell id="17" value="decisao = sequencia[count]&lt;br&gt;ultimoCount = millis()&lt;br&gt;count++" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+      <mxGeometry x="200" y="495" width="230" height="55" as="geometry"/>
+    </mxCell>
+
+    <!-- Diamond: switch(decisao) -->
+    <mxCell id="18" value="switch(decisao)" style="rhombus;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+      <mxGeometry x="215" y="600" width="200" height="70" as="geometry"/>
+    </mxCell>
+
+    <!-- DIREITA → CURVA_D -->
+    <mxCell id="19" value="estado =&lt;br&gt;CURVA_D" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+      <mxGeometry x="30" y="720" width="110" height="40" as="geometry"/>
+    </mxCell>
+
+    <!-- ESQUERDA → CURVA_E -->
+    <mxCell id="20" value="estado =&lt;br&gt;CURVA_E" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+      <mxGeometry x="170" y="720" width="110" height="40" as="geometry"/>
+    </mxCell>
+
+    <!-- FIM → PARADO_FIM -->
+    <mxCell id="21" value="estado =&lt;br&gt;PARADO_FIM" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+      <mxGeometry x="315" y="720" width="110" height="40" as="geometry"/>
+    </mxCell>
+
+    <!-- FRENTE → sem mudança -->
+    <mxCell id="22" value="sem mudança&lt;br&gt;(passa reto)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+      <mxGeometry x="455" y="720" width="110" height="40" as="geometry"/>
+    </mxCell>
+
+    <!-- fim ISR -->
+    <mxCell id="23" value="fim da ISR" style="rounded=1;whiteSpace=wrap;html=1;arcSize=50;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+      <mxGeometry x="240" y="810" width="150" height="30" as="geometry"/>
+    </mxCell>
+
+    <!-- ── EDGES ── -->
+
+    <!-- start → diamond estado -->
+    <mxCell id="30" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" source="10" target="11" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- estado==SEGUIR? → ignora [NÃO] -->
+    <mxCell id="31" value="NÃO" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="11" target="12" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- estado==SEGUIR? → debounce [SIM] -->
+    <mxCell id="32" value="SIM" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="11" target="13" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- debounce → ignora ruído [SIM] -->
+    <mxCell id="33" value="SIM" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="13" target="14" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- debounce → count check [NÃO] -->
+    <mxCell id="34" value="NÃO" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="13" target="15" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- count >= total → ignora [SIM] -->
+    <mxCell id="35" value="SIM" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="15" target="16" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- count < total → lê sequencia [NÃO] -->
+    <mxCell id="36" value="NÃO" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="15" target="17" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- lê sequencia → switch -->
+    <mxCell id="37" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" source="17" target="18" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- switch → CURVA_D [DIREITA] -->
+    <mxCell id="38" value="DIREITA" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" source="18" target="19" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- switch → CURVA_E [ESQUERDA] -->
+    <mxCell id="39" value="ESQUERDA" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" source="18" target="20" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- switch → PARADO_FIM [FIM] -->
+    <mxCell id="40" value="FIM" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" source="18" target="21" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- switch → sem mudança [FRENTE] -->
+    <mxCell id="41" value="FRENTE" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" source="18" target="22" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- merge tudo → fim ISR -->
+    <mxCell id="42" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" source="19" target="23" parent="1">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="85" y="790"/>
+          <mxPoint x="315" y="790"/>
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="43" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" source="20" target="23" parent="1">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="225" y="790"/>
+          <mxPoint x="315" y="790"/>
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="44" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" source="21" target="23" parent="1">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="370" y="790"/>
+          <mxPoint x="315" y="790"/>
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="45" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" source="22" target="23" parent="1">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="510" y="790"/>
+          <mxPoint x="315" y="790"/>
+        </Array>
+      </mxGeometry>
+    </mxCell>
+
+  </root>
+</mxGraphModel>
