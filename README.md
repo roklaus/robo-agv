@@ -172,7 +172,7 @@ Isso permite posicionar o robô na largada sem disparar contagens falsas.
 
 ```
 robo-agv/
-├── roboagv.ino   # Código principal Arduino
+├── robo_agv.ino  # Código principal Arduino
 └── README.md     # Este arquivo
 ```
 
