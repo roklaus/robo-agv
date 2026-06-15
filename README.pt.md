@@ -32,29 +32,29 @@ Desenvolver um AGV (Automated Guided Vehicle) capaz de:
 
 ## Hardware
 
-| Componente              | Descrição                                   |
-|-------------------------|---------------------------------------------|
-| Arduino Uno/Nano        | Microcontrolador principal                  |
-| 2× Sensor IR seguidor   | Leitura da linha (esquerdo e direito)       |
-| 1× Sensor IR contador   | Detecção de intersecções via interrupção    |
-| 1× Sensor IR obstáculo  | Anti-colisão via interrupção                |
-| 2× Motor DC             | Tração diferencial                          |
-| Driver ponte H (L298N)  | Controle de direção e velocidade dos motores|
+| Componente              | Descrição                                    |
+|-------------------------|----------------------------------------------|
+| Arduino Uno/Nano        | Microcontrolador principal                   |
+| 2× Sensor IR seguidor   | Leitura da linha (esquerdo e direito)        |
+| 1× Sensor IR contador   | Detecção de intersecções via interrupção     |
+| 1× Sensor IR obstáculo  | Anti-colisão via interrupção                 |
+| 2× Motor DC             | Tração diferencial                           |
+| Driver ponte H (L298N)  | Controle de direção e velocidade dos motores |
 
 ## Mapeamento de Pinos
 
-| Pino | Função                  | Tipo     |
-|------|-------------------------|----------|
-| 2    | Sensor obstáculo        | INPUT    |
-| 3    | Sensor contador de linha| INPUT    |
-| 5    | PWM motor direito       | OUTPUT   |
-| 6    | PWM motor esquerdo      | OUTPUT   |
-| 7    | Motor esquerdo IN_1     | OUTPUT   |
-| 8    | Motor esquerdo IN_0     | OUTPUT   |
-| 9    | Motor direito IN_1      | OUTPUT   |
-| 10   | Motor direito IN_0      | OUTPUT   |
-| 11   | Sensor seguidor direito | INPUT    |
-| 12   | Sensor seguidor esquerdo| INPUT    |
+| Pino | Função                   | Tipo   |
+|------|--------------------------|--------|
+| 2    | Sensor obstáculo         | INPUT  |
+| 3    | Sensor contador de linha | INPUT  |
+| 5    | PWM motor direito        | OUTPUT |
+| 6    | PWM motor esquerdo       | OUTPUT |
+| 7    | Motor esquerdo IN_1      | OUTPUT |
+| 8    | Motor esquerdo IN_0      | OUTPUT |
+| 9    | Motor direito IN_1       | OUTPUT |
+| 10   | Motor direito IN_0       | OUTPUT |
+| 11   | Sensor seguidor direito  | INPUT  |
+| 12   | Sensor seguidor esquerdo | INPUT  |
 
 ## Máquina de Estados
 
@@ -70,13 +70,13 @@ SEGUIR
 
 ### Estados
 
-| Estado       | Descrição                                              |
-|--------------|--------------------------------------------------------|
-| `SEGUIR`     | Segue a linha usando os sensores esquerdo e direito    |
-| `CURVA_D`    | Executa curva de 90° para a direita                    |
-| `CURVA_E`    | Executa curva de 90° para a esquerda                   |
-| `PARADO`     | Para aguardando remoção do obstáculo (retomável)       |
-| `PARADO_FIM` | Para permanentemente ao concluir o caminho             |
+| Estado       | Descrição                                           |
+|--------------|-----------------------------------------------------|
+| `SEGUIR`     | Segue a linha usando os sensores esquerdo e direito |
+| `CURVA_D`    | Executa curva de 90° para a direita                 |
+| `CURVA_E`    | Executa curva de 90° para a esquerda                |
+| `PARADO`     | Para aguardando remoção do obstáculo (retomável)    |
+| `PARADO_FIM` | Para permanentemente ao concluir o caminho          |
 
 ## Sistema de Sequência de Decisões
 
@@ -86,12 +86,12 @@ Cada intersecção detectada pelo sensor contador (`IR_CONTADOR_LINHA`) consome 
 int sequencia[] = {FRENTE, DIREITA, ESQUERDA, FRENTE, FRENTE};
 ```
 
-| Valor      | Ação na intersecção              |
-|------------|----------------------------------|
-| `FRENTE`   | Passa reto, sem virar            |
-| `DIREITA`  | Vira 90° à direita               |
-| `ESQUERDA` | Vira 90° à esquerda              |
-| `FIM`      | Para permanentemente             |
+| Valor      | Ação na intersecção  |
+|------------|----------------------|
+| `FRENTE`   | Passa reto, sem virar|
+| `DIREITA`  | Vira 90° à direita   |
+| `ESQUERDA` | Vira 90° à esquerda  |
+| `FIM`      | Para permanentemente |
 
 ### Como definir o caminho
 
@@ -113,7 +113,7 @@ const int totalPassos = 4;
 
 ## Anti-Colisão
 
-O sensor de obstáculo (`IR_OBS`, pino 2) é ligado via interrupção `CHANGE`:
+O sensor de obstáculo (pino 2) é ligado via interrupção `CHANGE`:
 
 - **Obstáculo detectado** (sinal LOW): robô para imediatamente, salva o estado atual
 - **Obstáculo removido** (sinal HIGH): robô retoma o estado salvo automaticamente
@@ -144,7 +144,7 @@ void obsISR()
 #define T_CURVA_E_MAX     7500   // timeout curva esquerda (ms)
 ```
 
-> Os valores de `V_FRENTE` e `V_CURVA` variam entre robôs. Calibre conforme o hardware.
+> Os valores variam entre robôs. Calibre conforme o hardware.
 
 ## Inicialização com Delay
 
@@ -161,8 +161,13 @@ Isso permite posicionar o robô na largada sem disparar contagens falsas.
 
 ```
 robo-agv/
-├── robo_agv.ino  # Código principal Arduino
-└── README.md     # Este arquivo
+├── .github/
+│   └── workflows/
+│       └── language-switch.yml
+├── robo_agv.ino   # Código principal Arduino
+├── README.md      # README ativo
+├── README.pt.md   # Versão em português
+└── README.en.md   # Versão em inglês
 ```
 
 ## Critérios de Avaliação Atendidos
