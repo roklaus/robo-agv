@@ -57,26 +57,13 @@ Desenvolver um AGV (Automated Guided Vehicle) capaz de:
 ## Máquina de Estados
 
 ```
-                  ┌─────────────────────────────┐
-                  │          obstáculo           │
-                  ▼                              │ obstáculo removido
-              ┌────────┐                    ┌────────┐
-    ┌────────►│ SEGUIR │                    │ PARADO │
-    │         └───┬────┘                    └────────┘
-    │             │
-    │     ┌───────┴────────┐
-    │  DIREITA          ESQUERDA
-    │     │                │
-    │  ┌──▼────┐      ┌────▼──┐
-    └──┤CURVA_D│      │CURVA_E├──┐
-       └───────┘      └───────┘  │
-                                 │ (retorna ao SEGUIR após curva)
-                       FIM       │
-                   ┌─────────────┘ (não retorna)
-                   ▼
-              ┌──────────┐
-              │PARADO_FIM│
-              └──────────┘
+SEGUIR
+  │
+  ├── sensor conta intersecção → decisao = DIREITA  ──► CURVA_D ──► volta pra SEGUIR
+  ├── sensor conta intersecção → decisao = ESQUERDA ──► CURVA_E ──► volta pra SEGUIR
+  ├── sensor conta intersecção → decisao = FIM      ──► PARADO_FIM (fica pra sempre)
+  │
+  └── obstáculo detectado ──► PARADO ──► obstáculo removido ──► volta pro estado anterior
 ```
 
 ### Estados
