@@ -1,20 +1,20 @@
-# Robô AGV Seguidor de Linhas
+# AGV Line-Following Robot
 
-> 🌐 Idioma: **Português** | [English](README.en.md)
+> 🌐 Language: [Português](README.pt.md) | **English**
 
-Trabalho da disciplina de Sistemas Embarcados — Robô Auto Guiado (AGV)
+Academic embedded systems project — Automated Guided Vehicle (AGV)
 
-## Descrição
+## Description
 
-Robô autônomo seguidor de linhas capaz de navegar em um grid demarcado no chão, executar um caminho pré-determinado e desviar de obstáculos automaticamente. Implementado em Arduino com máquina de estados finita.
+Autonomous line-following robot capable of navigating a marked floor grid, executing a pre-determined path, and automatically avoiding obstacles. Implemented on Arduino using a finite state machine.
 
-## Objetivo
+## Objective
 
-Desenvolver um AGV (Automated Guided Vehicle) capaz de:
-- Trafegar pelas linhas de um grid 4×4
-- Executar um caminho definido por uma sequência de decisões em cada intersecção
-- Detectar e aguardar a remoção de obstáculos (anti-colisão)
-- Operar de forma totalmente autônoma
+Develop an AGV (Automated Guided Vehicle) capable of:
+- Navigating along the lines of a 4×4 grid
+- Executing a path defined by a sequence of decisions at each intersection
+- Detecting and waiting for obstacle removal (anti-collision)
+- Operating fully autonomously
 
 ## Grid
 
@@ -32,91 +32,91 @@ Desenvolver um AGV (Automated Guided Vehicle) capaz de:
 
 ## Hardware
 
-| Componente              | Descrição                                   |
-|-------------------------|---------------------------------------------|
-| Arduino Uno/Nano        | Microcontrolador principal                  |
-| 2× Sensor IR seguidor   | Leitura da linha (esquerdo e direito)       |
-| 1× Sensor IR contador   | Detecção de intersecções via interrupção    |
-| 1× Sensor IR obstáculo  | Anti-colisão via interrupção                |
-| 2× Motor DC             | Tração diferencial                          |
-| Driver ponte H (L298N)  | Controle de direção e velocidade dos motores|
+| Component               | Description                                  |
+|-------------------------|----------------------------------------------|
+| Arduino Uno/Nano        | Main microcontroller                         |
+| 2× IR line sensor       | Line reading (left and right)                |
+| 1× IR counter sensor    | Intersection detection via interrupt         |
+| 1× IR obstacle sensor   | Anti-collision via interrupt                 |
+| 2× DC Motor             | Differential drive                           |
+| H-bridge driver (L298N) | Motor direction and speed control            |
 
-## Mapeamento de Pinos
+## Pin Mapping
 
-| Pino | Função                  | Tipo     |
-|------|-------------------------|----------|
-| 2    | Sensor obstáculo        | INPUT    |
-| 3    | Sensor contador de linha| INPUT    |
-| 5    | PWM motor direito       | OUTPUT   |
-| 6    | PWM motor esquerdo      | OUTPUT   |
-| 7    | Motor esquerdo IN_1     | OUTPUT   |
-| 8    | Motor esquerdo IN_0     | OUTPUT   |
-| 9    | Motor direito IN_1      | OUTPUT   |
-| 10   | Motor direito IN_0      | OUTPUT   |
-| 11   | Sensor seguidor direito | INPUT    |
-| 12   | Sensor seguidor esquerdo| INPUT    |
+| Pin | Function                 | Type   |
+|-----|--------------------------|--------|
+| 2   | Obstacle sensor          | INPUT  |
+| 3   | Line counter sensor      | INPUT  |
+| 5   | Right motor PWM          | OUTPUT |
+| 6   | Left motor PWM           | OUTPUT |
+| 7   | Left motor IN_1          | OUTPUT |
+| 8   | Left motor IN_0          | OUTPUT |
+| 9   | Right motor IN_1         | OUTPUT |
+| 10  | Right motor IN_0         | OUTPUT |
+| 11  | Right line sensor        | INPUT  |
+| 12  | Left line sensor         | INPUT  |
 
-## Máquina de Estados
+## State Machine
 
 ```
-SEGUIR
+FOLLOW
   │
-  ├── sensor conta intersecção → decisao = DIREITA  ──► CURVA_D ──► volta pra SEGUIR
-  ├── sensor conta intersecção → decisao = ESQUERDA ──► CURVA_E ──► volta pra SEGUIR
-  ├── sensor conta intersecção → decisao = FIM      ──► PARADO_FIM (fica pra sempre)
+  ├── intersection counted → decision = RIGHT   ──► TURN_R ──► back to FOLLOW
+  ├── intersection counted → decision = LEFT    ──► TURN_L ──► back to FOLLOW
+  ├── intersection counted → decision = END     ──► STOPPED_END (permanent)
   │
-  └── obstáculo detectado ──► PARADO ──► obstáculo removido ──► volta pro estado anterior
+  └── obstacle detected ──► STOPPED ──► obstacle removed ──► back to previous state
 ```
 
-### Estados
+### States
 
-| Estado       | Descrição                                              |
-|--------------|--------------------------------------------------------|
-| `SEGUIR`     | Segue a linha usando os sensores esquerdo e direito    |
-| `CURVA_D`    | Executa curva de 90° para a direita                    |
-| `CURVA_E`    | Executa curva de 90° para a esquerda                   |
-| `PARADO`     | Para aguardando remoção do obstáculo (retomável)       |
-| `PARADO_FIM` | Para permanentemente ao concluir o caminho             |
+| State          | Description                                          |
+|----------------|------------------------------------------------------|
+| `SEGUIR`       | Follows the line using left and right sensors        |
+| `CURVA_D`      | Executes a 90° right turn                            |
+| `CURVA_E`      | Executes a 90° left turn                             |
+| `PARADO`       | Stopped waiting for obstacle removal (resumable)     |
+| `PARADO_FIM`   | Permanently stopped after completing the path        |
 
-## Sistema de Sequência de Decisões
+## Decision Sequence System
 
-Cada intersecção detectada pelo sensor contador (`IR_CONTADOR_LINHA`) consome um elemento da sequência:
+Each intersection detected by the counter sensor (`IR_CONTADOR_LINHA`) consumes one element from the sequence:
 
 ```cpp
 int sequencia[] = {FRENTE, DIREITA, ESQUERDA, FRENTE, FRENTE};
 ```
 
-| Valor      | Ação na intersecção              |
-|------------|----------------------------------|
-| `FRENTE`   | Passa reto, sem virar            |
-| `DIREITA`  | Vira 90° à direita               |
-| `ESQUERDA` | Vira 90° à esquerda              |
-| `FIM`      | Para permanentemente             |
+| Value      | Action at intersection  |
+|------------|-------------------------|
+| `FRENTE`   | Go straight, no turn    |
+| `DIREITA`  | Turn 90° right          |
+| `ESQUERDA` | Turn 90° left           |
+| `FIM`      | Stop permanently        |
 
-### Como definir o caminho
+### How to define the path
 
-1. Identifique as intersecções que o robô vai cruzar, **em ordem**
-2. Para cada uma, defina a ação: `FRENTE`, `DIREITA`, `ESQUERDA` ou `FIM`
-3. Ajuste o array `sequencia[]` e `totalPassos` no código
+1. Identify the intersections the robot will cross, **in order**
+2. For each one, define the action: `FRENTE`, `DIREITA`, `ESQUERDA` or `FIM`
+3. Adjust the `sequencia[]` array and `totalPassos` in the code
 
-**Exemplo** — caminho `1 → E → 2 → B → 4`:
+**Example** — path `1 → E → 2 → B → 4`:
 ```
-Intersecção 1 (cruzamento em E): passa reto   → FRENTE
-Intersecção 2 (cruzamento em 2): vira direita → DIREITA
-Intersecção 3 (cruzamento em B): vira direita → DIREITA
-Intersecção 4 (chegou em 4):     para         → FIM
+Intersection 1 (crossing at E): go straight  → FRENTE
+Intersection 2 (crossing at 2): turn right   → DIREITA
+Intersection 3 (crossing at B): turn right   → DIREITA
+Intersection 4 (arrived at 4): stop          → FIM
 ```
 ```cpp
 int sequencia[]   = {FRENTE, DIREITA, DIREITA, FIM};
 const int totalPassos = 4;
 ```
 
-## Anti-Colisão
+## Anti-Collision
 
-O sensor de obstáculo (`IR_OBS`, pino 2) é ligado via interrupção `CHANGE`:
+The obstacle sensor (pin 2) is connected via `CHANGE` interrupt:
 
-- **Obstáculo detectado** (sinal LOW): robô para imediatamente, salva o estado atual
-- **Obstáculo removido** (sinal HIGH): robô retoma o estado salvo automaticamente
+- **Obstacle detected** (LOW signal): robot stops immediately, saves current state
+- **Obstacle removed** (HIGH signal): robot resumes saved state automatically
 
 ```cpp
 void obsISR()
@@ -125,52 +125,57 @@ void obsISR()
 }
 ```
 
-## Parâmetros Ajustáveis
+## Adjustable Parameters
 
 ```cpp
-#define V_FRENTE_DIREITO   200   // velocidade roda direita em linha reta
-#define V_FRENTE_ESQUERDO  128   // velocidade roda esquerda em linha reta
+#define V_FRENTE_DIREITO   200   // right wheel speed on straight line
+#define V_FRENTE_ESQUERDO  128   // left wheel speed on straight line
 
-#define V_CURVA_D_RAPIDO   170   // roda rápida na curva direita
-#define V_CURVA_D_LENTO     10   // roda lenta na curva direita
+#define V_CURVA_D_RAPIDO   170   // fast wheel on right turn
+#define V_CURVA_D_LENTO     10   // slow wheel on right turn
 
-#define V_CURVA_E_RAPIDO   240   // roda rápida na curva esquerda
-#define V_CURVA_E_LENTO     10   // roda lenta na curva esquerda
+#define V_CURVA_E_RAPIDO   240   // fast wheel on left turn
+#define V_CURVA_E_LENTO     10   // slow wheel on left turn
 
-#define T_CURVA_D_MIN     1000   // tempo mínimo de curva direita (ms)
-#define T_CURVA_E_MIN     1000   // tempo mínimo de curva esquerda (ms)
+#define T_CURVA_D_MIN     1000   // minimum right turn duration (ms)
+#define T_CURVA_E_MIN     1000   // minimum left turn duration (ms)
 
-#define T_CURVA_D_MAX     7500   // timeout curva direita (ms)
-#define T_CURVA_E_MAX     7500   // timeout curva esquerda (ms)
+#define T_CURVA_D_MAX     7500   // right turn timeout (ms)
+#define T_CURVA_E_MAX     7500   // left turn timeout (ms)
 ```
 
-> Os valores de `V_FRENTE` e `V_CURVA` variam entre robôs. Calibre conforme o hardware.
+> Values vary between robots. Calibrate according to your hardware.
 
-## Inicialização com Delay
+## Startup Delay
 
-O setup aguarda **3 segundos** antes de ativar a contagem de intersecções:
+Setup waits **3 seconds** before activating intersection counting:
 
 ```cpp
 delay(3000);
 attachInterrupt(digitalPinToInterrupt(IR_CONTADOR_LINHA), contadorLinhaISR, RISING);
 ```
 
-Isso permite posicionar o robô na largada sem disparar contagens falsas.
+This allows positioning the robot at the starting point without triggering false counts.
 
-## Estrutura do Repositório
+## Repository Structure
 
 ```
 robo-agv/
-├── robo_agv.ino  # Código principal Arduino
-└── README.md     # Este arquivo
+├── .github/
+│   └── workflows/
+│       └── language-switch.yml
+├── robo_agv.ino   # Main Arduino code
+├── README.md      # Active README
+├── README.pt.md   # Portuguese version
+└── README.en.md   # English version
 ```
 
-## Critérios de Avaliação Atendidos
+## Evaluation Criteria Met
 
-| Critério                              | Pontos | Status |
+| Criterion                             | Points | Status |
 |---------------------------------------|--------|--------|
-| Movimentação pelas linhas             | 1 pt   | ✅     |
-| Executar o caminho pré-determinado    | 3 pts  | ✅     |
-| Sistema anti-colisão                  | 2 pts  | ✅     |
-| Sistema de tomada de decisão          | 2 pts  | ✅     |
-| Execução sem interferência humana     | 2 pts  | ✅     |
+| Line navigation                       | 1 pt   | ✅     |
+| Execute pre-determined path           | 3 pts  | ✅     |
+| Anti-collision system                 | 2 pts  | ✅     |
+| Decision-making system                | 2 pts  | ✅     |
+| Full autonomous execution             | 2 pts  | ✅     |
