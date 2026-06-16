@@ -4,104 +4,98 @@
     <mxCell id="0"/>
     <mxCell id="1" parent="0"/>
 
-    <!-- ── PARTE 1: ISR ── -->
-    <mxCell id="2" value="PARTE 1 — ISR: obsISR()  (acionada por hardware, CHANGE no pino 2)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;fontStyle=1;fontSize=11;fontColor=#666666;" vertex="1" parent="1">
-      <mxGeometry x="100" y="10" width="500" height="30" as="geometry"/>
+    <!-- Parte 1 label -->
+    <mxCell id="2" value="PARTE 1 — Leitura do sensor de obstáculo (executada automaticamente ao detectar mudança)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;fontStyle=1;fontSize=11;fontColor=#666666;" vertex="1" parent="1">
+      <mxGeometry x="80" y="10" width="620" height="30" as="geometry"/>
     </mxCell>
 
-    <!-- ISR start -->
-    <mxCell id="10" value="obsISR()&lt;br&gt;INTERRUPÇÃO acionada" style="rounded=1;whiteSpace=wrap;html=1;arcSize=50;fillColor=#7b1fa2;strokeColor=#4a148c;fontColor=#ffffff;fontStyle=1;" vertex="1" parent="1">
-      <mxGeometry x="210" y="50" width="200" height="40" as="geometry"/>
+    <!-- Sensor detectou mudança -->
+    <mxCell id="10" value="Sensor de obstáculo&lt;br&gt;detectou uma mudança" style="rounded=1;whiteSpace=wrap;html=1;arcSize=50;fillColor=#7b1fa2;strokeColor=#4a148c;fontColor=#ffffff;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="205" y="50" width="210" height="40" as="geometry"/>
     </mxCell>
 
-    <!-- digitalRead -->
-    <mxCell id="11" value="digitalRead(IR_OBSTACULO)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
-      <mxGeometry x="205" y="130" width="210" height="40" as="geometry"/>
+    <!-- Lê o sensor -->
+    <mxCell id="11" value="Lê o estado do sensor&lt;br&gt;(bloqueado ou livre?)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+      <mxGeometry x="200" y="130" width="220" height="40" as="geometry"/>
     </mxCell>
 
-    <!-- Diamond: pino == LOW? -->
-    <mxCell id="12" value="pino == LOW?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d6b656;" vertex="1" parent="1">
-      <mxGeometry x="215" y="215" width="190" height="70" as="geometry"/>
+    <!-- Diamond -->
+    <mxCell id="12" value="Sensor está bloqueado?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d6b656;" vertex="1" parent="1">
+      <mxGeometry x="205" y="215" width="210" height="70" as="geometry"/>
     </mxCell>
 
-    <!-- SIM: obstaculoAtivo = true -->
-    <mxCell id="13" value="obstaculoAtivo = true" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
-      <mxGeometry x="30" y="225" width="150" height="40" as="geometry"/>
+    <!-- SIM: tem obstáculo -->
+    <mxCell id="13" value="Marca:&lt;br&gt;tem obstáculo" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+      <mxGeometry x="30" y="225" width="140" height="40" as="geometry"/>
     </mxCell>
 
-    <!-- NÃO: obstaculoAtivo = false -->
-    <mxCell id="14" value="obstaculoAtivo = false" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
-      <mxGeometry x="445" y="225" width="150" height="40" as="geometry"/>
+    <!-- NÃO: livre -->
+    <mxCell id="14" value="Marca:&lt;br&gt;caminho livre" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+      <mxGeometry x="450" y="225" width="140" height="40" as="geometry"/>
     </mxCell>
 
-    <!-- fim ISR -->
-    <mxCell id="15" value="fim da ISR" style="rounded=1;whiteSpace=wrap;html=1;arcSize=50;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
-      <mxGeometry x="235" y="340" width="150" height="30" as="geometry"/>
+    <!-- fim leitura -->
+    <mxCell id="15" value="Fim da leitura do sensor" style="rounded=1;whiteSpace=wrap;html=1;arcSize=50;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+      <mxGeometry x="220" y="335" width="180" height="30" as="geometry"/>
     </mxCell>
 
-    <!-- ── PARTE 2: loop() ── -->
-    <mxCell id="3" value="PARTE 2 — Resposta no loop()  (verificado a cada iteração)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;fontStyle=1;fontSize=11;fontColor=#666666;" vertex="1" parent="1">
-      <mxGeometry x="100" y="400" width="500" height="30" as="geometry"/>
+    <!-- Parte 2 label -->
+    <mxCell id="3" value="PARTE 2 — Resposta do robô (verificado a cada instante no loop principal)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;fontStyle=1;fontSize=11;fontColor=#666666;" vertex="1" parent="1">
+      <mxGeometry x="80" y="395" width="600" height="30" as="geometry"/>
     </mxCell>
 
-    <!-- Diamond: obstaculoAtivo? -->
-    <mxCell id="16" value="obstaculoAtivo?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d6b656;" vertex="1" parent="1">
-      <mxGeometry x="215" y="440" width="190" height="70" as="geometry"/>
+    <!-- Diamond: tem obstáculo? -->
+    <mxCell id="16" value="Tem obstáculo na frente?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d6b656;" vertex="1" parent="1">
+      <mxGeometry x="205" y="435" width="210" height="70" as="geometry"/>
     </mxCell>
 
-    <!-- SIM: salva + para -->
-    <mxCell id="17" value="estadoSalvo = estado&lt;br&gt;estado = PARADO&lt;br&gt;parar()&lt;br&gt;&lt;font color=&quot;#aaaaaa&quot;&gt;&lt;i&gt;retorna ao LOOP&lt;/i&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
-      <mxGeometry x="30" y="445" width="150" height="70" as="geometry"/>
+    <!-- SIM: para -->
+    <mxCell id="17" value="Salva o que estava fazendo&lt;br&gt;Para o robô&lt;br&gt;&lt;font color=&quot;#aaaaaa&quot;&gt;&lt;i&gt;aguarda obstáculo sair&lt;/i&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+      <mxGeometry x="20" y="440" width="155" height="60" as="geometry"/>
     </mxCell>
 
-    <!-- NÃO: verifica se estava parado -->
-    <mxCell id="18" value="estado ==&lt;br&gt;PARADO?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d6b656;" vertex="1" parent="1">
-      <mxGeometry x="445" y="450" width="160" height="70" as="geometry"/>
+    <!-- NÃO → estava parado? -->
+    <mxCell id="18" value="Robô estava parado&lt;br&gt;por obstáculo?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d6b656;" vertex="1" parent="1">
+      <mxGeometry x="450" y="445" width="175" height="70" as="geometry"/>
     </mxCell>
 
-    <!-- SIM de 18: retoma -->
-    <mxCell id="19" value="estado = estadoSalvo&lt;br&gt;&lt;font color=&quot;#aaaaaa&quot;&gt;&lt;i&gt;retoma o estado anterior&lt;/i&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
-      <mxGeometry x="445" y="570" width="165" height="50" as="geometry"/>
+    <!-- SIM: retoma -->
+    <mxCell id="19" value="Retoma o que&lt;br&gt;estava fazendo" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+      <mxGeometry x="460" y="565" width="155" height="40" as="geometry"/>
     </mxCell>
 
-    <!-- NÃO de 18: continua normal -->
-    <mxCell id="20" value="continua execução normal" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
-      <mxGeometry x="215" y="570" width="190" height="40" as="geometry"/>
+    <!-- NÃO: continua -->
+    <mxCell id="20" value="Continua normalmente" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+      <mxGeometry x="210" y="565" width="200" height="40" as="geometry"/>
     </mxCell>
 
     <!-- ── EDGES ── -->
 
-    <!-- ISR start → read -->
     <mxCell id="30" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" source="10" target="11" parent="1">
       <mxGeometry relative="1" as="geometry"/>
     </mxCell>
 
-    <!-- read → diamond -->
     <mxCell id="31" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" source="11" target="12" parent="1">
       <mxGeometry relative="1" as="geometry"/>
     </mxCell>
 
-    <!-- diamond → true [SIM, sai pela esquerda] -->
-    <mxCell id="32" value="SIM&lt;br&gt;(obstáculo)" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="12" target="13" parent="1">
+    <mxCell id="32" value="SIM" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="12" target="13" parent="1">
       <mxGeometry relative="1" as="geometry"/>
     </mxCell>
 
-    <!-- diamond → false [NÃO, sai pela direita] -->
-    <mxCell id="33" value="NÃO&lt;br&gt;(livre)" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="12" target="14" parent="1">
+    <mxCell id="33" value="NÃO" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="12" target="14" parent="1">
       <mxGeometry relative="1" as="geometry"/>
     </mxCell>
 
-    <!-- true → fim ISR -->
     <mxCell id="34" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" source="13" target="15" parent="1">
       <mxGeometry relative="1" as="geometry">
         <Array as="points">
-          <mxPoint x="105" y="310"/>
+          <mxPoint x="100" y="310"/>
           <mxPoint x="310" y="310"/>
         </Array>
       </mxGeometry>
     </mxCell>
 
-    <!-- false → fim ISR -->
     <mxCell id="35" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" source="14" target="15" parent="1">
       <mxGeometry relative="1" as="geometry">
         <Array as="points">
@@ -111,22 +105,18 @@
       </mxGeometry>
     </mxCell>
 
-    <!-- loop: obstaculoAtivo? → salva+para [SIM] -->
     <mxCell id="36" value="SIM" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="16" target="17" parent="1">
       <mxGeometry relative="1" as="geometry"/>
     </mxCell>
 
-    <!-- loop: obstaculoAtivo? → estado==PARADO? [NÃO] -->
     <mxCell id="37" value="NÃO" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="16" target="18" parent="1">
       <mxGeometry relative="1" as="geometry"/>
     </mxCell>
 
-    <!-- estado==PARADO? → retoma [SIM] -->
     <mxCell id="38" value="SIM" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="18" target="19" parent="1">
       <mxGeometry relative="1" as="geometry"/>
     </mxCell>
 
-    <!-- estado==PARADO? → continua [NÃO] -->
     <mxCell id="39" value="NÃO" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="18" target="20" parent="1">
       <mxGeometry relative="1" as="geometry"/>
     </mxCell>
